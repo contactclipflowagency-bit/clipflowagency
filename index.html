@@ -262,6 +262,25 @@ header {
     font-size: 0.8rem;
     margin-top: 20px;
 }
+
+/* TÍTULO DOS VÍDEOS (FEATURED PROJECTS) */
+.featured-title {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    text-align: center;      /* Centrado no telemóvel e PC */
+    font-size: 1rem;         /* Tamanho bom para telemóvel */
+    margin-bottom: 0px;     /* Espaço entre o texto e os vídeos */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- VERSÃO PC (Aumentar o texto) --- */
+@media (min-width: 768px) {
+    .featured-title {
+        font-size: 1.5rem;   /* Fica bem grande e impactante no PC */
+        margin-bottom: 0px;
+    }
+}
     </style>
 </head>
 
@@ -297,9 +316,12 @@ header {
 
     </div>
 </section>
-<h3 style="margin-left: 600px">Featured Projects:</h3>
 <section class="tiktok-section">
+    
+    <h2 class="featured-title">FEATURED PROJECTS:</h2>
 
+</section>
+<section class="tiktok-section">
     <div class="tiktok-grid">
         
         <div class="tiktok-card">
