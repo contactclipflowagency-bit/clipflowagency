@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value - Flux Media</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS BASE */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            padding: 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem;
+            color: #5E5CFF;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            border-left: 4px solid #5E5CFF;
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #ddd;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        /* --- LAYOUT GRID (O QUADRADÃO 2x2) --- */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Duas colunas iguais */
+            gap: 20px; /* Espaço entre as caixas */
+            margin-top: 30px;
+            margin-bottom: 30px; /* Espaço antes do botão grande */
+        }
+
+        /* --- ESTILO DOS CARTÕES --- */
+        .pricing-card {
+            background-color: #1e1e24;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            /* justify-content: space-between; -> Removido pois não há mais botão no fundo */
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Destaque para o Standard */
+        .pricing-card.standard {
+            background-color: #23232a;
+        }
+
+        .package-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Estilo da lista dentro dos cartões */
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Ocupa espaço para alinhar altura */
+        }
+
+        .features-list li {
+            border-bottom: 1px solid #333;
+            padding: 12px 0;
+            color: #ccc;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: #5E5CFF;
+            margin-right: 10px;
+            font-weight: bold;
+            min-width: 15px; 
+        }
+
+        .delivery-time {
+            display: block;
+            margin-top: auto; /* Empurra para o fundo da caixa */
+            padding-top: 15px;
+            font-weight: bold;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-top: 1px dashed #333; 
+        }
+
+        /* --- CUSTOM PLAN (A 4ª CAIXA - ROXA) --- */
+        .pricing-card.custom-box {
+            background-color: #5E5CFF; 
+            border-color: #5E5CFF;
+        }
+
+        .pricing-card.custom-box .package-name,
+        .pricing-card.custom-box .features-list li,
+        .pricing-card.custom-box .delivery-time {
+            color: white;
+        }
+
+        .pricing-card.custom-box .features-list li {
+            border-bottom-color: rgba(255,255,255, 0.3);
+        }
+
+        .pricing-card.custom-box .features-list li::before {
+            color: white; 
+        }
+        
+        .pricing-card.custom-box .delivery-time {
+             border-top-color: rgba(255,255,255, 0.3);
+        }
+
+        /* Texto no lugar do preço */
+        .pricing-card.custom-box .price-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- NOVO BOTÃO GRANDE (LARGURA TOTAL) --- */
+        .big-cta-btn {
+            display: block;
+            width: 100%; /* De um lado ao outro */
+            background-color: #5E5CFF;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 12px; /* Bordas arredondadas */
+            margin-bottom: 60px; /* Espaço para o botão de voltar */
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(94, 92, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .big-cta-btn:hover {
+            background-color: white;
+            color: #5E5CFF;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(94, 92, 255, 0.4);
+        }
+
+        /* --- BOTÃO DE VOLTAR (Intacto) --- */
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            border: 1px solid #555;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #5E5CFF;
+            border-color: #5E5CFF;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>VALUE & PRICING</h1>
+    <p class="subtitle">"Price is what you pay. Value is what you get."</p>
+
+    <hr style="border-color: #333; opacity: 0.5;">
+
+    <h2>INVESTMENT VS. EXPENSE</h2>
+    <p>
+        We view video editing not as a cost, but as an investment. A strategically edited piece of content can generate leads, sales, and loyal followers.
+    </p>
+
+    <h2>OUR RATES</h2>
+    
+    <p style="color: #999; font-size: 0.9rem; margin-bottom: 30px;">
+        *To book a package, please click <strong>"Book Now"</strong> to fill out our application form. We will contact you shortly to handle payment and details.
+    </p>
+
+    <div class="pricing-container">
+        
+        <div class="pricing-card">
+            <div class="package-name">BASIC</div>
+            <div class="price">£25</div>
+            <ul class="features-list">
+                <li>Up to 1 Minute Video</li>
+                <li>Simple Cuts & Pause Removal</li>
+                <li>Basic Captions Included</li>
+            </ul>
+            <span class="delivery-time">🚀 1 DAY DELIVERY</span>
+        </div>
+
+        <div class="pricing-card standard">
+            <div class="package-name">STANDARD</div>
+            <div class="price">£35</div>
+            <ul class="features-list">
+                <li>Up to 2 Minutes Video</li>
+                <li>Dynamic Cuts for Engagement</li>
+                <li>Captions Included</li>
+            </ul>
+            <span class="delivery-time">🚀 2 DAYS DELIVERY</span>
+        </div>
+
+        <div class="pricing-card">
+            <div class="package-name">PREMIUM</div>
+            <div class="price">£50</div>
+            <ul class="features-list">
+                <li>Up to 3 Minutes Video</li>
+                <li>Dynamic Cuts for Engagement</li>
+                <li>Appealing / Premium Captions</li>
+            </ul>
+            <span class="delivery-time">🚀 3 DAYS DELIVERY</span>
+        </div>
+
+        <div class="pricing-card custom-box">
+            <div class="package-name">CUSTOM PLAN</div>
+            
+            <div class="price-text">LET'S TALK</div>
+            
+            <ul class="features-list">
+                <li>Weekly/Monthly Retainers</li>
+                <li>Specific Budget Needs</li>
+                <li>Partnership Opportunities</li>
+            </ul>
+            
+            <span class="delivery-time">🚀 FLEXIBLE DELIVERY</span>
+        </div>
+
+    </div>
+
+    <a href="https://tally.so/r/zxyq4a" target="_blank" class="big-cta-btn">BOOK NOW</a>
+
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+</body>
+</html>
